@@ -1,0 +1,23 @@
+server:
+  port: 8093
+
+spring:
+  ai:
+    # 配置OpenAI
+    openai:
+      base-url: https://dashscope.aliyuncs.com/compatible-mode
+      api-key:
+      # 具体对话模型 - 不在文件中配置可在OpenAiChatModel中配置
+      chat:
+        options:
+          model: qwen-max
+    # 配置Ollama
+    ollama:
+      base-url:
+      chat:
+        model: deepseek-r1:1.5b
+
+logging:
+  level:
+    root: info
+  config: classpath:logback-spring.xml
