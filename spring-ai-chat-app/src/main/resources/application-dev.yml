@@ -2,6 +2,22 @@ server:
   port: 8093
 
 spring:
+  # 配置数据库
+  datasource:
+    username:
+    password:
+    url: jdbc:mysql://localhost:3306/spring-ai-chat?useUnicode=true&characterEncoding=utf8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&serverTimezone=Asia/Shanghai&useSSL=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  hikari:
+    pool-name: Retail_HikariCP
+    minimum-idle: 15 #最小空闲连接数量
+    idle-timeout: 180000 #空闲连接存活最大时间，默认600000（10分钟）
+    maximum-pool-size: 25 #连接池最大连接数，默认是10
+    auto-commit: true  #此属性控制从池返回的连接的默认自动提交行为,默认值：true
+    max-lifetime: 1800000 #此属性控制池中连接的最长生命周期，值0表示无限生命周期，默认1800000即30分钟
+    connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
+    connection-test-query: SELECT 1
+  type: com.zaxxer.hikari.HikariDataSource
   ai:
     # 配置OpenAI
     openai:
@@ -10,12 +26,23 @@ spring:
       # 具体对话模型 - 不在文件中配置可在OpenAiChatModel中配置
       chat:
         options:
-          model: qwen-max
+          model: qwen-plus
+      # 向量模型
+      embedding:
+        options:
+          model: text-embedding-v3
+          dimensions: 1024 # 向量维度
+
     # 配置Ollama
     ollama:
       base-url:
       chat:
         model: deepseek-r1:1.5b
+
+# MyBatis 配置
+mybatis:
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+  config-location: classpath:/mybatis/config/mybatis-config.xml
 
 logging:
   level:

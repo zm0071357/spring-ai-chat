@@ -33,6 +33,11 @@
             <artifactId>spring-ai-chat-api</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>top.xiaoming-programming</groupId>
+            <artifactId>spring-ai-chat-domain</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
 </project>

@@ -5,6 +5,6 @@ package spring.ai.chat.types.common;
  */
 public class Constants {
 
-    public static final String DEFAULT_SYSTEM_PROMPT = "你是一个有用的AI助手";
+    public static final String DEFAULT_SYSTEM_PROMPT = "你是一个有用的拼团服务AI助手";
 
 }

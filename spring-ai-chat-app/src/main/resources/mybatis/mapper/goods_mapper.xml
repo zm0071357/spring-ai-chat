@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="spring.ai.chat.infrastructure.dao.GoodsDao">
+
+    <resultMap id="GoodsResultMap" type="spring.ai.chat.infrastructure.dao.po.Goods">
+        <id column="id" property="id"/>
+        <result column="goods_id" property="goodsId"/>
+        <result column="goods_name" property="goodsName"/>
+        <result column="goods_desc" property="goodsDesc"/>
+        <result column="goods_price" property="goodsPrice"/>
+        <result column="goods_type" property="goodsType"/>
+        <result column="goods_expr" property="goodsExpr"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="getGoodsList" resultMap="GoodsResultMap">
+        select
+            goods_id, goods_name, goods_price
+        from goods
+    </select>
+
+    <select id="getGoodsByID" resultMap="GoodsResultMap" parameterType="java.lang.String">
+        select
+            goods_id, goods_name, goods_desc, goods_price, goods_type, goods_expr
+        from goods
+        where goods_id = #{goodsId}
+    </select>
+
+</mapper>
