@@ -1,0 +1,1 @@
+package spring.ai.chat.domain.trade.model.valobj;

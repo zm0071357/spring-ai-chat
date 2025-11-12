@@ -18,6 +18,7 @@ spring:
     connection-timeout: 30000 #数据库连接超时时间,默认30秒，即30000
     connection-test-query: SELECT 1
   type: com.zaxxer.hikari.HikariDataSource
+
   ai:
     # 配置OpenAI
     openai:
@@ -38,6 +39,14 @@ spring:
       base-url:
       chat:
         model: deepseek-r1:1.5b
+
+    # 配置MCP服务
+    mcp:
+      client:
+        sse:
+          connections:
+            goods_server:
+              url: http://localhost:18093
 
 # MyBatis 配置
 mybatis:

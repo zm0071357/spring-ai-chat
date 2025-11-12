@@ -4,13 +4,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.MessageChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.ChatMemory;
-import org.springframework.ai.chat.memory.InMemoryChatMemory;
-import org.springframework.ai.ollama.OllamaChatModel;
+import org.springframework.ai.chat.memory.MessageWindowChatMemory;
 import org.springframework.ai.openai.OpenAiChatModel;
+import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import spring.ai.chat.infrastructure.tools.GoodsTool;
-import spring.ai.chat.types.common.Constants;
+import spring.ai.chat.config.advisor.TestAdvisor;
+
+import static spring.ai.chat.types.common.Constants.DEFAULT_SYSTEM_PROMPT;
 
 /**
  * 对话配置类
@@ -19,28 +20,28 @@ import spring.ai.chat.types.common.Constants;
 @Configuration
 public class ChatConfig {
 
-    @Bean
+    @Bean("chatMemory")
     public ChatMemory chatMemory() {
-        log.info("加载会话记忆管理");
-        return new InMemoryChatMemory();
+        log.info("加载ChatMemory");
+        return MessageWindowChatMemory.builder().maxMessages(20).build();
     }
 
-    @Bean("ollamaChatClient")
-    public ChatClient ollamaChatClient(OllamaChatModel model, ChatMemory chatMemory) {
-        log.info("加载Ollama对话客户端");
-        return ChatClient.builder(model)
-                .defaultSystem(Constants.DEFAULT_SYSTEM_PROMPT)
-                .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory))
-                .build();
+    @Bean("messageChatMemoryAdvisor")
+    public MessageChatMemoryAdvisor messageChatMemoryAdvisor(ChatMemory chatMemory) {
+        log.info("加载MessageChatMemoryAdvisor");
+        return MessageChatMemoryAdvisor.builder(chatMemory).build();
     }
 
     @Bean("openAIChatClient")
-    public ChatClient openAIChatClient(OpenAiChatModel model, ChatMemory chatMemory, GoodsTool goodsTool) {
+    public ChatClient openAIChatClient(OpenAiChatModel model,
+                                       ToolCallbackProvider toolCallbackProvider,
+                                       MessageChatMemoryAdvisor messageChatMemoryAdvisor,
+                                       TestAdvisor testAdvisor) {
         log.info("加载OpenAI对话客户端");
         return ChatClient.builder(model)
-                .defaultSystem(Constants.DEFAULT_SYSTEM_PROMPT)
-                .defaultAdvisors(new MessageChatMemoryAdvisor(chatMemory))
-                .defaultTools(goodsTool)
+                .defaultSystem(DEFAULT_SYSTEM_PROMPT)
+                .defaultToolCallbacks(toolCallbackProvider)
+                .defaultAdvisors(messageChatMemoryAdvisor, testAdvisor)
                 .build();
     }
 
