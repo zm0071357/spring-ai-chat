@@ -68,6 +68,11 @@ okhttpclient:
     writeTimeOut: 600
     readTimeOut: 600
 
+# GitHub配置
+github:
+  username:
+  token:
+
 logging:
   level:
     root: info

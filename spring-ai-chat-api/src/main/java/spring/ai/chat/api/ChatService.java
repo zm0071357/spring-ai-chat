@@ -4,6 +4,7 @@ import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import spring.ai.chat.api.dto.ChatRequestDTO;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface ChatService {
@@ -29,5 +30,13 @@ public interface ChatService {
      * @return
      */
     String upload(String tag, List<MultipartFile> fileList);
+
+    /**
+     * 拉取Git代码库并上传知识库
+     * @param tag 标签
+     * @param repoUrl 拉取地址
+     * @return
+     */
+    String repoGit(String tag, String repoUrl) throws IOException;
 }
 

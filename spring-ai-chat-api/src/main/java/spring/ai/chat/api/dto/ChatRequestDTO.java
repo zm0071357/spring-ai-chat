@@ -28,4 +28,9 @@ public class ChatRequestDTO {
      */
     private Integer topK;
 
+    /**
+     * 相似度
+     */
+    private Double similarityThreshold;
+
 }
