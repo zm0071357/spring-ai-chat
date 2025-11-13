@@ -18,4 +18,14 @@ public class ChatRequestDTO {
      */
     private String prompt;
 
+    /**
+     * 标签
+     */
+    private String tag;
+
+    /**
+     * 检索文件数
+     */
+    private Integer topK;
+
 }

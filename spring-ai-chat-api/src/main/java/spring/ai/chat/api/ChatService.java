@@ -1,12 +1,15 @@
 package spring.ai.chat.api;
 
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 import spring.ai.chat.api.dto.ChatRequestDTO;
+
+import java.util.List;
 
 public interface ChatService {
 
     /**
-     * 普通对话
+     * 对话
      * @param chatRequestDTO
      * @return
      */
@@ -19,4 +22,12 @@ public interface ChatService {
      */
     Flux<String> chatStream(ChatRequestDTO chatRequestDTO);
 
+    /**
+     * 上传知识库
+     * @param tag 标签
+     * @param fileList 文件集合
+     * @return
+     */
+    String upload(String tag, List<MultipartFile> fileList);
 }
+
