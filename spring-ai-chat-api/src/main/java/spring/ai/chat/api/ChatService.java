@@ -6,6 +6,7 @@ import spring.ai.chat.api.dto.ChatRequestDTO;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 public interface ChatService {
 
@@ -38,5 +39,8 @@ public interface ChatService {
      * @return
      */
     String repoGit(String tag, String repoUrl) throws IOException;
+
+
+    Map<String, Object> testGraph(String word);
 }
 

@@ -1,5 +1,8 @@
 package spring.ai.chat.trigger.http;
 
+import com.alibaba.cloud.ai.graph.CompiledGraph;
+import com.alibaba.cloud.ai.graph.OverAllState;
+import com.alibaba.fastjson.JSON;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
@@ -26,6 +29,8 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static spring.ai.chat.types.common.Constants.CHAT_MEMORY_CONVERSATION_ID_KEY;
@@ -44,6 +49,9 @@ public class ChatController implements ChatService {
 
     @Resource
     private TokenTextSplitter tokenTextSplitter;
+
+    @Resource
+    private CompiledGraph compiledGraph;
 
     @Value("${github.username}")
     private String username;
@@ -206,6 +214,15 @@ public class ChatController implements ChatService {
                 }
             }
         }
+    }
+
+    @PostMapping("/test_graph")
+    @Override
+    public Map<String, Object> testGraph(@RequestParam("word") String word) {
+        Optional<OverAllState> overAllState = compiledGraph.invoke((Map.of("word", word)));
+        Map<String, Object> map = overAllState.map(OverAllState::data).orElse(Map.of());
+        log.info("返回结果：{}", JSON.toJSONString(map));
+        return map;
     }
 
 }
