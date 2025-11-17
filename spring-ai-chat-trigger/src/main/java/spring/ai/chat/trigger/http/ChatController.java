@@ -28,10 +28,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static spring.ai.chat.types.common.Constants.CHAT_MEMORY_CONVERSATION_ID_KEY;
 
@@ -51,7 +48,10 @@ public class ChatController implements ChatService {
     private TokenTextSplitter tokenTextSplitter;
 
     @Resource
-    private CompiledGraph compiledGraph;
+    private CompiledGraph englishAssistantGraph;
+
+    @Resource
+    private CompiledGraph taskAssistantGraph;
 
     @Value("${github.username}")
     private String username;
@@ -216,10 +216,25 @@ public class ChatController implements ChatService {
         }
     }
 
-    @PostMapping("/test_graph")
+    @PostMapping("/english_graph")
     @Override
-    public Map<String, Object> testGraph(@RequestParam("word") String word) {
-        Optional<OverAllState> overAllState = compiledGraph.invoke((Map.of("word", word)));
+    public Map<String, Object> englishGraph(@RequestParam("word") String word) {
+        Optional<OverAllState> overAllState = englishAssistantGraph.invoke((Map.of("word", word)));
+        Map<String, Object> map = overAllState.map(OverAllState::data).orElse(Map.of());
+        log.info("返回结果：{}", JSON.toJSONString(map));
+        return map;
+    }
+
+    @PostMapping("/task_graph")
+    @Override
+    public Map<String, Object> taskGraph(@RequestParam("prompt") String prompt,
+                                         @RequestParam("userId") String userId,
+                                         @RequestParam("maxStep") Integer maxStep) {
+        HashMap<String, Object> requestParamMap = new HashMap<>();
+        requestParamMap.put("prompt", prompt);
+        requestParamMap.put("userId", userId);
+        requestParamMap.put("maxStep", maxStep);
+        Optional<OverAllState> overAllState = taskAssistantGraph.invoke(requestParamMap);
         Map<String, Object> map = overAllState.map(OverAllState::data).orElse(Map.of());
         log.info("返回结果：{}", JSON.toJSONString(map));
         return map;

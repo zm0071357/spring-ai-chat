@@ -23,7 +23,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import static spring.ai.chat.types.common.Constants.DEFAULT_SYSTEM_PROMPT;
+import static spring.ai.chat.types.common.Constants.*;
 
 /**
  * 对话配置类
@@ -48,7 +48,7 @@ public class OpenAIConfig {
     public ChatClient openAIChatClient(OpenAiChatModel model,
                                        ToolCallbackProvider toolCallbackProvider,
                                        MessageChatMemoryAdvisor messageChatMemoryAdvisor) {
-        log.info("加载OpenAI - ChatClient对话客户端");
+        log.info("加载OpenAI - openAIChatClient普通对话客户端");
         return ChatClient.builder(model)
                 .defaultSystem(DEFAULT_SYSTEM_PROMPT)
                 .defaultToolCallbacks(toolCallbackProvider)
@@ -82,6 +82,52 @@ public class OpenAIConfig {
     public TokenTextSplitter tokenTextSplitter() {
         log.info("加载OpenAI - tokenTextSplitter文件切割");
         return new TokenTextSplitter();
+    }
+
+    @Bean("taskAnalysisClient")
+    public ChatClient taskAnalysisClient(OpenAiChatModel model,
+                                         ToolCallbackProvider toolCallbackProvider,
+                                         MessageChatMemoryAdvisor messageChatMemoryAdvisor) {
+        log.info("加载OpenAI - taskAnalysisClient任务分析客户端");
+        return ChatClient.builder(model)
+                .defaultSystem(TASK_ANALYSIS_PROMPT)
+                .defaultToolCallbacks(toolCallbackProvider)
+                .defaultAdvisors(messageChatMemoryAdvisor)
+                .build();
+    }
+
+    @Bean("taskPrecisionClient")
+    public ChatClient taskPrecisionClient(OpenAiChatModel model,
+                                          ToolCallbackProvider toolCallbackProvider,
+                                          MessageChatMemoryAdvisor messageChatMemoryAdvisor) {
+        log.info("加载OpenAI - taskPrecisionClient任务执行客户端");
+        return ChatClient.builder(model)
+                .defaultSystem(TASK_PRECISION_PROMPT)
+                .defaultToolCallbacks(toolCallbackProvider)
+                .defaultAdvisors(messageChatMemoryAdvisor)
+                .build();
+    }
+
+    @Bean("qualitySupervisorClient")
+    public ChatClient qualitySupervisorClient(OpenAiChatModel model,
+                                              ToolCallbackProvider toolCallbackProvider,
+                                              MessageChatMemoryAdvisor messageChatMemoryAdvisor) {
+        log.info("加载OpenAI - qualitySupervisorClient质量监督客户端");
+        return ChatClient.builder(model)
+                .defaultSystem(QUALITY_SUPERVISOR_PROMPT)
+                .defaultToolCallbacks(toolCallbackProvider)
+                .defaultAdvisors(messageChatMemoryAdvisor)
+                .build();
+    }
+
+    @Bean("resultSummaryClient")
+    public ChatClient resultSummaryClient(OpenAiChatModel model,
+                                          MessageChatMemoryAdvisor messageChatMemoryAdvisor) {
+        log.info("加载OpenAI - resultSummaryClient结果总结客户端");
+        return ChatClient.builder(model)
+                .defaultSystem(RESULT_SUMMARY_PROMPT)
+                .defaultAdvisors(messageChatMemoryAdvisor)
+                .build();
     }
 
 }

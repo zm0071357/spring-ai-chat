@@ -18,6 +18,7 @@ public enum ResponseCodeEnum {
     INDEX_EXCEPTION("0003", "唯一索引冲突"),
     UPDATE_ZERO("0004", "更新记录为0"),
     HTTP_EXCEPTION("0005", "HTTP接口异常"),
+    E00001("E00001", "质量监督结果非法"),
     ;
     private String code;
     private String info;

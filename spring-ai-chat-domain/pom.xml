@@ -40,6 +40,11 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
         </dependency>
+        <dependency>
+            <groupId>top.xiaoming-programming</groupId>
+            <artifactId>spring-ai-chat-types</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
 </project>

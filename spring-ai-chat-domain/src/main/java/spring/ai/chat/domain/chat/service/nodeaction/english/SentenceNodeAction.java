@@ -1,4 +1,4 @@
-package spring.ai.chat.domain.chat.service.nodeaction;
+package spring.ai.chat.domain.chat.service.nodeaction.english;
 
 import com.alibaba.cloud.ai.graph.OverAllState;
 import com.alibaba.cloud.ai.graph.action.NodeAction;
@@ -19,7 +19,7 @@ public class SentenceNodeAction implements NodeAction {
 
     @Override
     public Map<String, Object> apply(OverAllState state) throws Exception {
-        log.info("状态图 - 造句节点");
+        log.info("英语助手状态图 - 造句节点");
         String word = state.value("word", "hello world");
         PromptTemplate promptTemplate = new PromptTemplate("你是一个英语专家，可以根据给出的单词造一个英语句子，只需要返回造句，不需要返回其他信息，给出的单词：{word}");
         promptTemplate.add("word", word);

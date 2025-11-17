@@ -40,7 +40,21 @@ public interface ChatService {
      */
     String repoGit(String tag, String repoUrl) throws IOException;
 
+    /**
+     * 英语助手
+     * @param word 单词
+     * @return
+     */
+    Map<String, Object> englishGraph(String word);
 
-    Map<String, Object> testGraph(String word);
+    /**
+     * 任务助手
+     * @param prompt 提示词
+     * @param userId 用户ID
+     * @param maxStep 最大执行步数
+     * @return
+     */
+    Map<String, Object> taskGraph(String prompt, String userId, Integer maxStep);
+
 }
 
